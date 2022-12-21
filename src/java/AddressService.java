@@ -22,8 +22,6 @@ public class AddressService {
         for(File item : fileList) {
             FileReader fr = new FileReader(item);
             BufferedReader br = new BufferedReader(fr);
-            InputStreamReader in = new InputStreamReader(new FileInputStream(String.valueOf(item)), StandardCharsets.UTF_8);
-            new BufferedReader(in);
             String line;
             while((line = br.readLine()) != null){
 //                System.out.println(line);
