@@ -102,8 +102,9 @@ public class AddressService {
 
 
     public String findMatchRoad(int index, String input) {
-        String tempString = String.valueOf(input.charAt(index));;
+        String tempString = String.valueOf(input.charAt(index));
 
+        // 도로명주소와 매치되는 경우
         for(int i=index-1; i>0; i--) {
             String stringItem = String.valueOf(input.charAt(i));
             if(isMatches(stringItem)) {
@@ -113,6 +114,18 @@ public class AddressService {
                 if(addressDtos != null) {
                     return tempString;
                 }
+            }
+        }
+
+        // 도로명주소와 매치되는것이 없는경우
+        tempString = String.valueOf(input.charAt(index));
+        for(int i=index-1; i>0; i--) {
+            String stringItem = String.valueOf(input.charAt(i));
+            if("도".equals(stringItem) || "시".equals(stringItem) || "구".equals(stringItem) || "군".equals(stringItem)) {
+                return tempString;
+            }
+            if(isMatches(stringItem)) {
+                tempString = stringItem.concat(tempString);
             }
         }
         return null;
