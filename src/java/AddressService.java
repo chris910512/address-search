@@ -1,7 +1,6 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 public class AddressService {
 
@@ -13,7 +12,7 @@ public class AddressService {
      * 건물번호와 동/층/호 사이에는 쉼표를 사용한다. ex) 석주로 89, 201동
      * */
 
-    static HashSet<AddressDto> addressHashSet = new HashSet<>();
+    static HashMap<String, HashSet<AddressDto>> addressHashMap = new HashMap<>(); // key: 로
 
     void init() throws IOException {
         final File folder = new File(".\\resources\\202211_address");
@@ -24,10 +23,21 @@ public class AddressService {
             BufferedReader br = new BufferedReader(fr);
             String line;
             while((line = br.readLine()) != null){
-//                System.out.println(line);
-                // 2: 도/시 3: 시/구/군 4: 동/면 5:리 10:로/길
-                String[] split = line.split("\\|");
-                addressHashSet.add(new AddressDto(split[2], split[3], split[4], split[5], split[10]));
+                try {
+                    // 2: 도/시 3: 시/구/군 4: 동/면 5:리 10:로/길
+                    String[] split = line.split("\\|");
+                    AddressDto addressDto = new AddressDto(split[2], split[3], split[4], split[5], split[10]);
+                    Set<AddressDto> addressList = addressHashMap.get(split[10]);
+                    if(addressList != null) {
+                        addressList.add(addressDto);
+                    } else {
+                        HashSet<AddressDto> address = new HashSet<>();
+                        address.add(addressDto);
+                        addressHashMap.put(split[10], address);
+                    }
+                } catch (Exception e) {
+                    System.out.println(line);
+                }
             }
         }
     }
@@ -42,5 +52,44 @@ public class AddressService {
     // 쉼표 외 특수문자가 있는 case
     // 오타가 있는 case
 
+    public String[] getRefinedAddress(String input) {
+        String result = input;
 
+        ArrayList<Integer> itemIndexes = new ArrayList<>();
+        int e = input.indexOf('로');
+        itemIndexes.add(e);
+
+        while(e >= 0) {
+            e = input.indexOf('로', e+1);
+            itemIndexes.add(e);
+        }
+
+        Iterator<Integer> iterator = itemIndexes.iterator();
+        while(iterator.hasNext()) {
+            Integer next = iterator.next();
+            if(next != -1) {
+                HashSet<AddressDto> matchedAddress = findMatchedAddress(next, input);
+            }
+        }
+
+        return new String[] {result, result};
+    }
+
+    public HashSet<AddressDto> findMatchedAddress(int index, String input) {
+        String tempString = String.valueOf(input.charAt(index));;
+
+        for(int i=index-1; i>0; i--) {
+            String stringItem = String.valueOf(input.charAt(i));
+            boolean matches = stringItem.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*");
+            if(matches) {
+                String concat = stringItem.concat(tempString);
+                tempString = concat;
+                HashSet<AddressDto> addressDtos = addressHashMap.get(concat);
+                if(addressDtos != null) {
+                    return addressDtos;
+                }
+            }
+        }
+        return null;
+    }
 }
