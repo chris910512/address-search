@@ -5,6 +5,9 @@
 로 or 길을 확인하는것이 제일 우선 목표이기 때문에, 로 or 길과 hit 되는 문자열을 발견하면 이 것을 return 한다.
 그렇지 않은 경우 임의의 로직으로 추출된 결과를 return 한다.
 
+## 프로젝트 구조
+![image](https://user-images.githubusercontent.com/44944612/209044227-ad99e95f-1bce-4477-9465-239cf74a3721.png)
+
 ## 제한사항
 1. resources 폴더 하위에 최신 도로명주소 데이터가 UTF-8 형식으로 import되어 있어야 한다.
 2. 이 프로그램은 사용자가 로 or 길은 어떻게든 정확히 입력했다는 가정 하에 가장 높은 hit ratio를 보인다.
