@@ -15,24 +15,13 @@ public class AddressDto {
         this.level5 = level5;
     }
 
-    public String getLevel1() {
-        return level1;
-    }
-
-    public String getLevel2() {
-        return level2;
-    }
-
-    public String getLevel3() {
-        return level3;
-    }
-
-    public String getLevel4() {
-        return level4;
-    }
-
-    public String getLevel5() {
-        return level5;
+    @Override
+    public String toString() {
+        if(level4 == null || "".equals(level4)) {
+            return this.level1 + " " + this.level2 + " " + this.level3 + " " + this.level5;
+        } else {
+            return this.level1 + " " + this.level2 + " " + this.level3 + " " + this.level4 + " " + this.level5;
+        }
     }
 
     @Override
