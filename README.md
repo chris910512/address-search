@@ -22,6 +22,10 @@
 ## 개선 필요 사항
 1. 실제 운영할 때는 resources directory에서 처리하는 부분을 Redis 등 DB로 이관한다. (파일이 변경될 경우 application을 재기동 해줘야만 함)
 2. 도로명주소 import 프로그램 자동화 필요
+-- Code Review 후 개선 필요 도출사항
+3. 자필 도로명주소 적합성 여부 검증 시 외부 알고리즘 사용 대신 적재해온 도로명주소와 비교해서 처리할 수 있는 방법
+4. 자필 도로명주소 Parsing시 Maxlenghth 조건을 비교하여 시간복잡도를 줄일 수 있는 방법
+5. 도로명주소에 특수문자가 있는 case에 대한 처리 방법
 
 ## 참고사항
 * 도로명주소 출처: https://business.juso.go.kr/addrlink/attrbDBDwld/attrbDBDwldList.do?cPath=99MD&menu=%EC%A3%BC%EC%86%8CDB
